@@ -18,8 +18,8 @@ def fig1_judge_fp():
     ]
     W, H = 420, 260
     margin = dict(l=60, r=20, t=40, b=70)
-    bw = 80
-    gap = 40
+    bw = 44
+    gap = 32
     total_bar_w = len(bars) * (bw + gap) - gap
     x0 = margin["l"] + (W - margin["l"] - margin["r"] - total_bar_w) / 2
     chart_h = H - margin["t"] - margin["b"]
