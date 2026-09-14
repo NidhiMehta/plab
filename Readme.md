@@ -1,9 +1,45 @@
-# PLAB v0.3 — Privacy Leakage Assessment Benchmark
+# PLAB — Privacy attack LLM Benchmark
 
-A deterministic privacy-attack benchmark. 3,600 cases across 6 domains × 8 attack families × 25 scenario families × 3 difficulty levels.
+**Paper:** *Silent Judge: Weak LLMs as Evaluators Inflate Privacy Failure Rates by 3.5× in PLAB*
 
-**Python:** `/Users/nidhi/git_repos/agentscope/.venv/bin/python`
-**Model:** `qwen3.5:9b` (Ollama local)
+A deterministic privacy-attack benchmark. v0.3: 3,600 cases across 6 domains × 8 attack families × 25 scenario families × 3 difficulty levels. v0.4: 45 cases across 4 tiers (tool_gated, implicit_authz, confused_deputy, chained).
+
+---
+
+## Key finding
+
+Weak LLM judges inflate apparent failure rates by **3.5×** — 1,441 flags vs. 412 true failures — with 683 confirmed hallucinations (47.4% of all flags).
+
+![Judge false-positive rates across models](paper/figures/fig1_judge_fp.svg)
+
+![v0.4 per-tier results across 5 frontier models](paper/figures/fig3_v04_results.svg)
+
+---
+
+## Reports
+
+| Report | Description |
+|--------|-------------|
+| [v0.4 model comparison](results/v0.4/full_run/comparison_report.html) | Side-by-side results for all 5 models across all 4 tiers |
+| [v0.3 full run](results/v0.3/full_report.html) | Complete 3,600-case analysis with domain and attack-family breakdowns |
+| [v0.3 failure detail](results/v0.3/failures_detail_report.html) | Per-case breakdown of all 412 true failures |
+| [v0.3 domain analysis](results/v0.3/domain_analysis_report.html) | Failure rates by domain and attack family |
+
+> Download the HTML files and open locally to view the interactive reports.
+
+---
+
+## Key numbers
+
+| Metric | Value |
+|--------|-------|
+| v0.3 judge-flagged | 1,441 / 3,600 (40.0%) |
+| v0.3 true failures | 412 / 3,600 (11.4%) |
+| Judge inflation factor | **3.5×** |
+| Confirmed hallucinations | 683 / 1,441 (47.4%) |
+| Partial-leak anti-pattern | 13 / 15 failures (87%) |
+| v0.4 best model | DeepSeek R1 — 44/45 (97.8%) |
+| v0.4 weakest model | Gemini 2.5 Pro — 40/45 (88.9%) |
 
 ---
 
