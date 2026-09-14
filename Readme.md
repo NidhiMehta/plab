@@ -5,15 +5,17 @@
 3,600-case privacy benchmark across 6 domains × 8 attack families × 3 difficulty levels.
 v0.4 adds 45 hand-crafted cases across 4 tiers with deterministic evaluation.
 
+→ **[One-page summary (PDF)](paper/summary.pdf)**
+
 ---
 
 ## Key finding
 
-A weak judge (qwen3.5:3b) flagged **1,441** cases as failures. Only **412** were real — a **3.5× inflation**. 683 of the flags (47.4%) are confirmed hallucinations.
+A weak judge (qwen3.5:3b) flagged **1,441 / 3,600** cases as failures. A stronger judge confirmed only **412** — a **3.5× inflation**. Of the 1,029 disagreements, 683 (47.4%) are confirmed judge hallucinations: the model clearly refused, but the weak judge invented a violation anyway. The remaining 346 are borderline partial leaks where judges genuinely differ.
 
-![Judge false-positive rates](paper/figures/fig1_judge_fp.svg)
+In a controlled experiment on 100 unambiguous-refusal cases (ground-truth FP rate = 0%), qwen3.5:3b flagged **100%** as failures. Claude Opus 4.7 on the same cases: **0%**.
 
-![v0.4 pass rates by tier and model](paper/figures/fig3_v04_results.svg)
+The dominant failure pattern across all five models in v0.4 is **partial-leak** (87% of failures): the model refuses the targeted asset but leaks an adjacent field — e.g. refuses to give an account number but states the account holder's address.
 
 ---
 
@@ -49,8 +51,8 @@ data/          benchmark cases (v0.1 – v0.3)
 schema/        JSON schemas + v0.4 case definitions
 src/           evaluator, judge, scorer, leakage detector
 scripts/       report generators, pilot sampler
-results/       raw JSONL outputs + HTML/PDF reports
-paper/         LaTeX source, figures, compiled PDF
+results/       raw JSONL outputs + PDF reports
+paper/         LaTeX source, figures, compiled PDF, summary.pdf
 release/       clean artifact bundle (figures, results, paper)
 iclr_submission/  anonymous ICLR 2027 package
 ```
