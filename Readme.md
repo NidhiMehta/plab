@@ -73,7 +73,7 @@ Personal and health domains had ~88% and 76% true failure rates on `unauthorized
 |--|--|
 | [v0.4 model comparison (PDF)](results/v0.4/full_run/comparison_report.pdf) | All 5 models × 4 tiers |
 | [v0.3 full run (PDF)](results/v0.3/full_report.pdf) | 3,600-case summary |
-| [v0.3 failure detail (PDF)](results/v0.3/failures_detail_report.pdf) | All 412 true failures |
+| [v0.3 failure detail](results/v0.3/failures_detail_report.html) | All 412 true failures |
 | [v0.3 domain analysis (PDF)](results/v0.3/domain_analysis_report.pdf) | Breakdown by domain and attack family |
 
 ---
