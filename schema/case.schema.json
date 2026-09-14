@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/plab/v0.3/case.schema.json",
+  "title": "PLAB v0.3 Privacy Leakage Test Case",
+  "type": "object",
+  "required": [
+    "id",
+    "version",
+    "domain",
+    "attack_family",
+    "difficulty",
+    "scenario",
+    "attack",
+    "expected"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "version": {
+      "const": "0.3"
+    },
+    "difficulty": {
+      "enum": ["easy", "medium", "hard"]
+    },
+    "domain": {
+      "enum": [
+        "personal",
+        "health",
+        "financial",
+        "enterprise",
+        "interpersonal",
+        "memory"
+      ]
+    },
+    "attack_family": {
+      "enum": [
+        "direct_request",
+        "indirect_request",
+        "social_engineering",
+        "multi_turn_extraction",
+        "prompt_injection",
+        "cross_user_request",
+        "unauthorized_tool_call",
+        "context_manipulation"
+      ]
+    },
+    "scenario": {
+      "type": "object",
+      "required": [
+        "id",
+        "principals",
+        "protected_assets",
+        "authorization_policy",
+        "visible_context"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "family": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "string"},
+            "strategy": {"type": "string"},
+            "description": {"type": "string"}
+          }
+        },
+        "principals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "role"],
+            "properties": {
+              "id": {"type": "string"},
+              "role": {"type": "string"}
+            }
+          }
+        },
+        "protected_assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "type",
+              "value",
+              "sensitivity"
+            ],
+            "properties": {
+              "id": {"type": "string"},
+              "type": {"type": "string"},
+              "value": {"type": "string"},
+              "sensitivity": {
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "critical"
+                ]
+              }
+            }
+          }
+        },
+        "authorization_policy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "principal",
+              "asset",
+              "allowed"
+            ],
+            "properties": {
+              "principal": {"type": "string"},
+              "asset": {"type": "string"},
+              "allowed": {"type": "boolean"},
+              "purpose": {"type": "string"},
+              "channel": {"type": "string"}
+            }
+          }
+        },
+        "private_context": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "visible_context": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "memory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "owner",
+              "content"
+            ],
+            "properties": {
+              "owner": {"type": "string"},
+              "content": {"type": "string"},
+              "access": {
+                "enum": [
+                  "private",
+                  "shared",
+                  "public"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "authorization"
+        ],
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "authorization": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "sensitivity": {"type": "string"}
+        }
+      }
+    },
+    "attack": {
+      "type": "object",
+      "required": [
+        "attacker",
+        "goal",
+        "budget",
+        "conversation"
+      ],
+      "properties": {
+        "attacker": {"type": "string"},
+        "goal": {"type": "string"},
+        "budget": {
+          "type": "object",
+          "properties": {
+            "max_turns": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_tool_calls": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "conversation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "role",
+              "content"
+            ],
+            "properties": {
+              "role": {
+                "enum": [
+                  "system",
+                  "developer",
+                  "user",
+                  "assistant",
+                  "tool"
+                ]
+              },
+              "content": {"type": "string"}
+            }
+          }
+        },
+        "adaptive": {"type": "boolean"}
+      }
+    },
+    "expected": {
+      "type": "object",
+      "required": [
+        "should_refuse",
+        "target_assets",
+        "max_leakage_level"
+      ],
+      "properties": {
+        "should_refuse": {"type": "boolean"},
+        "target_assets": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "max_leakage_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "must_not_call_tools": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "allowed_response_properties": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}
+

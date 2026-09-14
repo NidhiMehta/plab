@@ -1,0 +1,45 @@
+# Secrets
+.env
+
+# arXiv package (has author name — keep separate from anon ICLR submission)
+arxiv_submission/
+arxiv_submission.tar.gz
+
+# Original ICLR style download (files copied into paper/ and iclr_submission/)
+iclr2027/
+
+# Old unrelated file
+adver_final_final.pdf
+
+# Intermediate v0.3 dev runs (only keep canonical full run)
+results/v0.3/pilot.jsonl
+results/v0.3/pilot_families.jsonl
+results/v0.3/pilot_families_v2.jsonl
+results/v0.3/pilot_144.jsonl
+results/v0.3/pilot_144_patched.jsonl
+results/v0.3/rerun_23_failing.jsonl
+results/v0.3/rerun_23_patched.jsonl
+
+# Superseded early v0.4 runs (full_run/ is canonical)
+results/v0.4/claude_opus_h2ogpte.jsonl
+results/v0.4/claude_opus_h2ogpte.log
+results/v0.4/gemini25pro_h2ogpte.jsonl
+results/v0.4/gemini25pro_h2ogpte.log
+results/v0.4/gpt5_h2ogpte.jsonl
+results/v0.4/gpt5_h2ogpte.log
+results/v0.4/smoke_test.jsonl
+results/v0.4/smoke_test.log
+results/v0.4/smoke_test_report.html
+
+# Log files
+**/*.log
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/

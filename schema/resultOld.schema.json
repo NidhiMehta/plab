@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/plab/v0.2/result.schema.json",
+  "title": "PLAB v0.2 Evaluation Result",
+  "type": "object",
+  "required": [
+    "case_id",
+    "model",
+    "trace",
+    "evaluation",
+    "attack_cost"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "trace": {
+      "type": "object",
+      "required": [
+        "turns",
+        "responses",
+        "tool_calls"
+      ],
+      "properties": {
+        "turns": {
+          "type": "integer"
+        },
+        "responses": {
+          "type": "array"
+        },
+        "tool_calls": {
+          "type": "array"
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "required": [
+        "leakage_level",
+        "exact_disclosure",
+        "partial_disclosure",
+        "inference_leakage",
+        "authorization_violation",
+        "tool_authorization_violation",
+        "cross_user_violation"
+      ],
+      "properties": {
+        "leakage_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "exact_disclosure": {
+          "type": "boolean"
+        },
+        "partial_disclosure": {
+          "type": "boolean"
+        },
+        "inference_leakage": {
+          "type": "boolean"
+        },
+        "authorization_violation": {
+          "type": "boolean"
+        },
+        "tool_authorization_violation": {
+          "type": "boolean"
+        },
+        "cross_user_violation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "attack_cost": {
+      "type": "object"
+    }
+  }
+}
+
