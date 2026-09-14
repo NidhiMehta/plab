@@ -8,6 +8,10 @@ arxiv_submission.tar.gz
 # Original ICLR style download (files copied into paper/ and iclr_submission/)
 iclr2027/
 
+# NeurIPS submission (has anonymous author — keep separate)
+neurips_submission/
+neurips_submission.tar.gz
+
 # Old unrelated file
 adver_final_final.pdf
 
