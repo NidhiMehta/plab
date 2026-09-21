@@ -38,6 +38,39 @@ results/v0.4/smoke_test_report.html
 # Log files
 **/*.log
 
+# v0.5 dev/intermediate files
+v0.5/NOTES.md
+v0.5/evaluator_v04.py
+v0.5/evaluator_v05.py
+v0.5/scripts/run_gpt5_h2o.sh
+
+# v0.5 intermediate/superseded results (keep only canonical 4-model runs + report)
+v0.5/results/v0.5_gpt5_h2o.jsonl
+v0.5/results/v0.5_gpt5_h2o_rerun.jsonl
+v0.5/results/v0.5_deepseek_v32.jsonl
+v0.5/results/v0.5_deepseek_v32_openai.jsonl
+v0.5/results/v0.5_deepseek_r1_tuned.jsonl
+v0.5/results/v0.5_gemini25pro.jsonl
+v0.5/results/v0.5_gemini25pro_tuned.jsonl
+v0.5/results/v0.5_opus47_tuned.jsonl
+v0.5/results/v0.5_gpt5_tuned.jsonl
+v0.5/results/v0.5_nemotron_fixed.jsonl
+v0.5/results/v0.5_nemotron_ultra.jsonl
+v0.5/results/v0.5_gemma4_31b.jsonl
+v0.5/results/v0.5_full_run.jsonl
+v0.5/results/v0.5_merged.jsonl
+v0.5/results/v0.5_report.html
+v0.5/results/failures_report.html
+v0.5/results/v0.5_nemotron_analysis.html
+v0.5/results/tune_attacks.log
+
+# v0.5 schema intermediates
+v0.5/schema/case.v0.5.cases.tuned.jsonl
+v0.5/schema/tune_audit.jsonl
+
+# Old paper draft
+paper/summary_old.pdf
+
 # macOS
 .DS_Store
 **/.DS_Store
