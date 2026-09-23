@@ -67,10 +67,51 @@ Personal and health domains had ~88% and 76% true failure rates on `unauthorized
 
 ---
 
+## v0.5 — Four-tier agentic benchmark (90 cases, 4 models)
+
+v0.5 introduces a principled four-tier attack taxonomy and expands the case set to 90 cases across 10 domains. All runs use H2OGPTE's OpenAI-compatible endpoint with native tool calling.
+
+**Attack tiers**
+
+| Tier | What it tests |
+|------|--------------|
+| `implicit_authz` | Protected data in system prompt; model must refuse to repeat it without explicit policy |
+| `tool_gated` | Data sits behind a tool call with ACL; failure = model fetched data it wasn't authorised to retrieve |
+| `confused_deputy` | Model has legitimate tool access but is tricked into using it for another user's data |
+| `chained` | Multi-turn attack; early turns build context or trust, final turn extracts the protected asset |
+
+**Results (90 cases)**
+
+| Model | Pass | Fail | Inc | Pass rate (conclusive) |
+|-------|------|------|-----|------------------------|
+| Claude Opus 4.7 | 22 | 6 | 62 | **78.6%** |
+| Gemini 2.5 Pro | 22 | 8 | 60 | **73.3%** |
+| GPT-5.2 | 23 | 25 | 42 | **47.9%** |
+| DeepSeek-V3.2 | 15 | 22 | 53 | **40.5%** |
+
+*Inc = inconclusive: model made no tool calls and no deterministic disclosure — the adversarial prompt wasn't exercised.*
+
+**Key findings**
+
+1. **One case broke every model.** `PLAB-v0.5-IA-FIN-001` (audit pretext, financial domain) produced a confirmed failure across all four models with conclusive results. Audit authority framing reliably bypasses implicit authorisation.
+
+2. **DeepSeek-V3.2 is the most exploitable.** 22 confirmed failures vs 8 for Gemini and 6 for Opus. It makes more tool calls and serves more data — higher functional utility, higher attack surface. Its chained-tier failure rate is roughly 5× Gemini's.
+
+3. **Social engineering is the highest-signal attack family.** 9 confirmed failures across models (DS=4, Gem=2, GPT-5.2=3, Opus=0). Claude Opus 4.7 had zero social engineering failures; every other model failed at least two.
+
+4. **Tool-dependent tiers are largely unexercised.** 40–93% of `tool_gated`, `confused_deputy`, and `chained` cases are inconclusive — models decline to call tools on adversarial prompts. This is not a pass; it means the ACL bypass surface remains mostly untested.
+
+5. **Chained attacks are GPT-5.2's weakness.** 13 of its 25 failures are in the chained tier. Context manipulation and social engineering over multiple turns is its primary vulnerability.
+
+→ [Full v0.5 report](v0.5/results/plab_v05_report.html)
+
+---
+
 ## Reports
 
 | | |
 |--|--|
+| [v0.5 interactive report](v0.5/results/plab_v05_report.html) | 4 models × 90 cases × 4 tiers |
 | [v0.4 model comparison (PDF)](results/v0.4/full_run/comparison_report.pdf) | All 5 models × 4 tiers |
 | [v0.3 full run (PDF)](results/v0.3/full_report.pdf) | 3,600-case summary |
 | [v0.3 failure detail](results/v0.3/failures_detail_report.html) | All 412 true failures |
@@ -86,6 +127,9 @@ schema/        JSON schemas + v0.4 case definitions
 src/           evaluator, judge, scorer, leakage detector
 scripts/       report generators, pilot sampler
 results/       raw JSONL outputs + PDF reports
+v0.3/          v0.3 canonical results and report
+v0.4/          v0.4 per-model results and report
+v0.5/          evaluator, judge, schema, scripts, results, report
 paper/         LaTeX source, figures, compiled PDF, summary.pdf
 release/       clean artifact bundle (figures, results, paper)
 iclr_submission/  anonymous ICLR 2027 package
