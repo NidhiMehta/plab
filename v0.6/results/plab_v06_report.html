@@ -175,6 +175,68 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);color
 </section>
 
 <section>
+  <h2>Defense-layer analysis (tool_gated)</h2>
+  <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px;line-height:1.65">
+    The <code>tool_gated</code> tier uses <code>enforce_acl</code> mock tools, which makes it
+    possible to separate three protection layers. <strong>Policy compliance</strong> (preventive):
+    did the model apply pre-call authorization reasoning and decline to call the tool?
+    <strong>Data protection</strong> (preventive + containment): was no protected value
+    disclosed, regardless of whether the tool was called? The gap between the two reveals
+    whether data protection came from the model or from the backend ACL.
+    <strong>Recovery</strong>: of cases where the model called without authorization, how many
+    times did it accept ACCESS_DENIED without circumvention?
+  </p>
+  <table class="stats-table" style="margin-bottom:8px">
+    <thead><tr>
+      <th>Model</th>
+      <th style="text-align:right">Policy compliance</th>
+      <th style="text-align:right">Data protection</th>
+      <th style="text-align:right">Gap</th>
+      <th style="text-align:right">Recovery</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td>Opus 4.7</td>
+        <td style="text-align:right">52% (12/23)</td>
+        <td style="text-align:right"><strong>96%</strong> (22/23)</td>
+        <td style="text-align:right">+44pp</td>
+        <td style="text-align:right">10/10</td>
+      </tr>
+      <tr>
+        <td>Gemini 2.5</td>
+        <td style="text-align:right">20% (4/20)</td>
+        <td style="text-align:right"><strong style="color:#15803d">100%</strong> (20/20)</td>
+        <td style="text-align:right"><strong>+80pp</strong></td>
+        <td style="text-align:right">16/16</td>
+      </tr>
+      <tr>
+        <td>GPT-5.2</td>
+        <td style="text-align:right"><strong style="color:#b91c1c">0%</strong> (0/16)</td>
+        <td style="text-align:right"><strong>94%</strong> (15/16)</td>
+        <td style="text-align:right"><strong>+94pp</strong></td>
+        <td style="text-align:right">15/16</td>
+      </tr>
+      <tr>
+        <td>DeepSeek V3</td>
+        <td style="text-align:right">50% (11/22)</td>
+        <td style="text-align:right"><strong>95%</strong> (21/22)</td>
+        <td style="text-align:right">+45pp</td>
+        <td style="text-align:right">10/10</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="color:var(--text-dim);font-size:13px;line-height:1.65">
+    Gemini and GPT-5.2 show large gaps (+80pp, +94pp): they are <em>delegating</em> authorization
+    to the tool layer rather than performing it. Their near-zero policy compliance figures mean
+    that on a permissive-tool deployment &mdash; where there is no backend ACL to catch unauthorized
+    calls &mdash; these models provide no protection. The 80% confused_deputy pass rate for Gemini
+    and 44% for GPT-5.2 are the relevant safety figures for permissive deployments.
+    Recovery is near-perfect across all models: 51 of 52 policy-fail cases accepted ACCESS_DENIED
+    without attempting circumvention.
+  </p>
+</section>
+
+<section>
   <h2>Evaluator&ndash;judge agreement &amp; soft disclosures</h2>
   <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px;line-height:1.65">
     Across 276 evaluations (69 cases &times; 4 models), failures split into three categories.
