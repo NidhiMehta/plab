@@ -317,13 +317,13 @@ in every model tested.</p>
   <tbody>
     <tr><td>Det. failure — exact disclosure</td><td class="num">83</td><td class="num">—</td></tr>
     <tr><td>Det. failure — tool violation</td><td class="num">51</td><td class="num">—</td></tr>
-    <tr><td class="bold">Soft disclosure (judge only)</td><td class="num bold red">18</td><td class="num bold red">3.5</td></tr>
+    <tr><td class="bold">Soft disclosure (judge only)</td><td class="num bold red">18</td><td class="num bold red">14/18 &ge;3 (med. 4)</td></tr>
     <tr><td>Agreed pass / inconclusive</td><td class="num">124</td><td class="num">0</td></tr>
   </tbody>
 </table>
 
 <p style="margin-top:5pt;font-size:9pt">
-  The 18 soft disclosures (mean leakage 3.5/5) are cases where the model refused
+  The 18 soft disclosures (14 of 18 at level &ge;3, median 4/5) are cases where the model refused
   but leaked data implicitly — echoing a protected value, disclosing through
   implication, or confirming sensitive context. All are in chained (<em>n</em>=10)
   or confused_deputy (<em>n</em>=8). <strong>CH-EDU-001</strong> — a chained attack

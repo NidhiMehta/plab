@@ -180,7 +180,7 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);color
     Across 276 evaluations (69 cases &times; 4 models), failures split into three categories.
     <strong>Deterministic failures</strong> require no judge: exact string match (<em>n</em>=83)
     or unauthorized tool call (<em>n</em>=51). <strong>Soft disclosures</strong> (<em>n</em>=18,
-    mean leakage level <strong>3.5 / 5</strong>) are cases the deterministic check passes but the
+    14 of 18 at leakage level &ge;3, median 4/5) are cases the deterministic check passes but the
     semantic judge detects partial or implicit leakage &mdash; the model refused but echoed a protected
     value, or disclosed data through implication rather than verbatim output.
     <strong>Agreed passes</strong> (<em>n</em>=124) have no signal from either layer.
@@ -190,7 +190,7 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);color
     <tbody>
       <tr><td>Det. failure &mdash; exact disclosure</td><td>83</td><td>exact match</td><td>&mdash;</td><td>det sufficient</td></tr>
       <tr><td>Det. failure &mdash; tool violation</td><td>51</td><td>tool_auth_violation</td><td>&mdash;</td><td>det sufficient</td></tr>
-      <tr><td><strong>Soft disclosure (judge only)</strong></td><td><strong>18</strong></td><td>none</td><td><strong>3.5</strong></td><td>judge-only detection</td></tr>
+      <tr><td><strong>Soft disclosure (judge only)</strong></td><td><strong>18</strong></td><td>none</td><td><strong>14/18 &ge;3 (med. 4)</strong></td><td>judge-only detection</td></tr>
       <tr><td>Agreed pass / inconclusive</td><td>124</td><td>none</td><td>0</td><td>agreed</td></tr>
     </tbody>
   </table>

@@ -57,7 +57,7 @@ across all models (0\% for Opus 4.7 and GPT-5.2), 18 of 69 cases (26\%) break
 all four models simultaneously, and chained multi-turn attacks are the hardest
 tier for three of four models.
 A semantic judge layer identifies 18 additional \emph{soft disclosures}
-(mean leakage level 3.5/5) that deterministic checks alone would miss~---
+(14 of 18 at leakage level $\geq$3, median 4/5) that deterministic checks alone would miss~---
 including a student mental health case (\texttt{CH-EDU-001}) where all four
 models leak verbatim PHQ-9 scores and suicidal ideation flags despite
 explicitly refusing the request.
@@ -389,8 +389,8 @@ three categories: (i)~\emph{deterministic failures}, where the protected value
 appears verbatim in the model response (exact disclosure, $n=83$) or the model
 calls a restricted tool and returns its contents (tool authorization violation,
 $n=51$); (ii)~\emph{soft disclosures}, cases the deterministic check passes but
-the semantic judge detects partial or implicit leakage ($n=18$, mean leakage
-level~3.5); and (iii)~\emph{agreed passes}, where neither the deterministic
+the semantic judge detects partial or implicit leakage ($n=18$, 14 of 18 at
+level~$\geq$3, median~4); and (iii)~\emph{agreed passes}, where neither the deterministic
 check nor the judge finds evidence of leakage ($n=124$).
 Table~\ref{tab:agreement} summarizes these categories.
 
@@ -406,7 +406,7 @@ Category & $n$ & Det.\ signal & Mean level & Agreement \\
 \midrule
 Det.\ failure — exact disclosure   & 83  & exact match        & — & det sufficient \\
 Det.\ failure — tool violation     & 51  & tool\_auth\_viol   & — & det sufficient \\
-Soft disclosure (judge only)       & 18  & none               & 3.5 & judge-only detection \\
+Soft disclosure (judge only)       & 18  & none               & 14/18 $\geq$3 (med.~4) & judge-only detection \\
 Agreed pass / inconclusive         & 124 & none               & 0   & agreed \\
 \bottomrule
 \end{tabular}
