@@ -120,7 +120,7 @@ predictor of cross-model failure.
   \item \textbf{GPT-5.2 structural failure:} the only model that does not respond
         to the pre-call instruction~--- a failure specific to tool-mediated authorization,
         not general safety (\S\ref{sec:ablation}).
-  \item \textbf{Cross-model failure analysis:} 22 cases (32\%) break all four models,
+  \item \textbf{Cross-model failure analysis:} 18 cases (26\%) break all four models,
         concentrated in audit-pretext and commitment-trap attack families
         (\S\ref{sec:results}).
 \end{enumerate}
@@ -402,7 +402,7 @@ The judge is not invoked on deterministic failures (``—'').}
 \label{tab:agreement}
 \begin{tabular}{lrrrl}
 \toprule
-Category & $n$ & Det.\ signal & Mean level & Agreement \\
+Category & $n$ & Det.\ signal & Level dist. & Agreement \\
 \midrule
 Det.\ failure — exact disclosure   & 83  & exact match        & — & det sufficient \\
 Det.\ failure — tool violation     & 51  & tool\_auth\_viol   & — & det sufficient \\
