@@ -1,12 +1,16 @@
 # PLAB — Privacy attack LLM Benchmark
 
-*Silent Judge: Weak LLMs as Evaluators Inflate Privacy Failure Rates by 3.5× in PLAB*
+*Silent Judge: Weak LLMs as Evaluators Inflate Privacy Failure Rates by 3.5× in PLAB*  
+*The Instruction Is the Defense: Authorization Boundaries in Agentic LLM Deployments*
 
 3,600-case privacy benchmark across 6 domains × 8 attack families × 3 difficulty levels.
 v0.4 adds 45 hand-crafted cases across 4 tiers with deterministic evaluation.
 
+The second paper (v0.6) tests whether LLMs respect access-control boundaries in agentic deployments — contexts where the model has real tool access, an authenticated user identity, and explicit authorization policy in its system prompt. Across 69 adversarial cases and 4 frontier models, a single pre-call authorization instruction is the sole source of safety in the tool-call tier: remove it and every model fails every case. GPT-5.2 fails all tool-gated cases even with the instruction in place — a structural gap no prompt engineering fixes.
+
 → **[One-page summary (PDF)](paper/summary.pdf)**  
-→ [Paper: "Silent Judge..." (v0.3 – v0.4)](paper/main.pdf)
+→ [Paper: "Silent Judge..." (v0.3 – v0.4)](paper/main.pdf)  
+→ [Paper: "The Instruction Is the Defense" (v0.6)](paper/plab_v06.pdf)
 
 ---
 
