@@ -6,7 +6,7 @@
 3,600-case privacy benchmark across 6 domains × 8 attack families × 3 difficulty levels.
 v0.4 adds 45 hand-crafted cases across 4 tiers with deterministic evaluation.
 
-The second paper (v0.6) tests whether LLMs respect access-control boundaries in agentic deployments — contexts where the model has real tool access, an authenticated user identity, and explicit authorization policy in its system prompt. Across 69 adversarial cases and 4 frontier models, a single pre-call authorization instruction is the sole source of safety in the tool-call tier: remove it and every model fails every case. GPT-5.2 fails all tool-gated cases even with the instruction in place — a structural gap no prompt engineering fixes.
+The second paper (v0.6) tests whether frontier LLMs respect access-control boundaries in realistic agentic deployments — contexts where the model has a named company identity, an authenticated caller, real tool access, and explicit authorization policy in its system prompt. Across 69 adversarial cases and 4 models, removing the pre-call authorization instruction collapses every model to 0% on tool-gated cases; restoring it recovers 52% for Opus and 50% for DeepSeek, but has no effect on GPT-5.2, which fails every tool-gated case regardless. A semantic judge layer uncovers 18 additional soft disclosures (mean leakage level 3.5/5) that deterministic checks alone miss, including a student mental health case where all four models leak PHQ-9 scores and suicidal ideation flags despite refusing the request.
 
 → **[One-page summary (PDF)](paper/summary.pdf)**  
 → [Paper: "Silent Judge..." (v0.3 – v0.4)](paper/main.pdf)  
