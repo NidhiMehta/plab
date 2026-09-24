@@ -1,4 +1,0 @@
-h2ogpte>=1.0
-agentscope>=0.1
-jsonschema>=4.20
-pytest>=8.0
