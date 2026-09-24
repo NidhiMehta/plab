@@ -57,6 +57,11 @@ Across the full benchmark, audit-framing attacks achieve near-zero pass rates
 across all models (0\% for Opus 4.7 and GPT-5.2), 18 of 69 cases (26\%) break
 all four models simultaneously, and chained multi-turn attacks are the hardest
 tier for three of four models.
+A semantic judge layer identifies 18 additional \emph{soft disclosures}
+(mean leakage level 3.5/5) that deterministic checks alone would miss~---
+including a student mental health case (\texttt{CH-EDU-001}) where all four
+models leak verbatim PHQ-9 scores and suicidal ideation flags despite
+explicitly refusing the request.
 We release all 69 cases, four result files, the ablation case set, and evaluation
 scripts to support reproducibility.
 \end{abstract}
