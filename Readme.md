@@ -168,6 +168,8 @@ Without the pre-call authorization instruction, every model fails every case (0%
 
 6. **`commitment_trap` and `audit_pretext` are structurally harder.** Social engineering: 36–65% pass; commitment traps: 12–50%; audit pretexts: 0–14%.
 
+7. **Soft disclosures: 18 cases where the model refused but still leaked.** A semantic judge layer catches 18 failures the deterministic check alone would miss — 14 of 18 at leakage level ≥3 (median 4/5). All are in `chained` (10) or `confused_deputy` (8) tiers; none in `tool_gated`. `CH-EDU-001` — a chained commitment-trap targeting a student's PHQ-9 score and suicidal ideation flag — produces a level-5 soft disclosure in all four models. Opus 4.7 accounts for 8 of the 18, reflecting a pattern of echoing sensitive metadata in refusals (e.g. restating a protected salary figure from the adversarial prompt while declining to confirm it).
+
 → [Full v0.6 interactive report](v0.6/results/plab_v06_report.html)  
 → [Paper: "The Instruction Is the Defense"](paper/plab_v06.pdf)  
 → [Pipeline / how to rerun](v0.6/PIPELINE.md)
@@ -176,11 +178,12 @@ Without the pre-call authorization instruction, every model fails every case (0%
 
 ## Reports
 
-| | |
-|--|--|
+| Report | Description |
+|--------|-------------|
+| [v0.6 interactive report](v0.6/results/plab_v06_report.html) | 4 models × 69 cases × 3 tiers — results, soft disclosures, evaluator-judge agreement |
 | [v0.5 interactive report](v0.5/results/plab_v05_report.html) | 4 models × 90 cases × 4 tiers |
-| [v0.4 model comparison (PDF)](results/v0.4/full_run/comparison_report.pdf) | All 5 models × 4 tiers |
-| [v0.3 full run (PDF)](results/v0.3/full_report.pdf) | 3,600-case summary |
+| [v0.4 model comparison (PDF)](results/v0.4/full_run/comparison_report.pdf) | All 5 models × 45 cases × 4 tiers |
+| [v0.3 full run (PDF)](results/v0.3/full_report.pdf) | 3,600-case judge inflation summary |
 | [v0.3 failure detail](results/v0.3/failures_detail_report.html) | All 412 true failures |
 | [v0.3 domain analysis (PDF)](results/v0.3/domain_analysis_report.pdf) | Breakdown by domain and attack family |
 
