@@ -10,6 +10,7 @@ The second paper (v0.6) tests whether LLMs respect access-control boundaries in 
 
 → **[One-page summary (PDF)](paper/summary.pdf)**  
 → [Paper: "Silent Judge..." (v0.3 – v0.4)](paper/main.pdf)  
+→ **[One-page summary v0.6 (PDF)](paper/summary_v06.pdf)**  
 → [Paper: "The Instruction Is the Defense" (v0.6)](paper/plab_v06.pdf)
 
 ---
