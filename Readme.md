@@ -181,6 +181,7 @@ Without the pre-call authorization instruction, every model fails every case (0%
 | Report | Description |
 |--------|-------------|
 | [v0.6 interactive report](v0.6/results/plab_v06_report.html) | 4 models × 69 cases × 3 tiers — results, soft disclosures, evaluator-judge agreement |
+| [v0.6 pipeline](v0.6/PIPELINE.md) | How to rerun evaluations, ablation, and rebuild the report |
 | [v0.5 interactive report](v0.5/results/plab_v05_report.html) | 4 models × 90 cases × 4 tiers |
 | [v0.4 model comparison (PDF)](results/v0.4/full_run/comparison_report.pdf) | All 5 models × 45 cases × 4 tiers |
 | [v0.3 full run (PDF)](results/v0.3/full_report.pdf) | 3,600-case judge inflation summary |
