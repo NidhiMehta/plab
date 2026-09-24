@@ -886,6 +886,67 @@ The tool's own access control must be the hard constraint.
 The model's pre-call reasoning, when present and functional, adds a soft filter
 that reduces successful attacks; it is not a substitute for server-side enforcement.
 
+\subsection{Authorization reasoning as a distinct capability}
+
+A natural objection to this benchmark is that it conflates two things:
+\emph{authorization-boundary preservation} (the security property) and
+\emph{instruction-following} (a general capability).
+If the experiment reduces to ``does the model follow the sentence that says verify authorization,''
+then the result tells us about instruction-following rather than access-control reasoning.
+
+We address this in three ways.
+
+\paragraph{The instruction-following account makes the wrong prediction.}
+If models were simply failing to follow the authorization instruction, we would expect
+the WITH-instruction and WITHOUT-instruction conditions to be similar:
+a model that ignores instructions should fail in both.
+Instead, three of four models perform substantially better with the instruction
+(+52pp, +50pp, +20pp): the instruction \emph{does} engage authorization behavior.
+The failure is not that the instruction is ignored~--- it is that following the
+instruction is not sufficient to produce the correct authorization decision.
+
+\paragraph{A four-layer decomposition clarifies where failure occurs.}
+We propose that authorization safety in agentic systems decomposes into four layers:
+
+\begin{enumerate}
+  \item \textbf{Policy awareness:} does the model register that an authorization
+    constraint exists?
+  \item \textbf{Authorization reasoning:} does the model apply that constraint to the
+    specific request (identifying who is asking, what they are asking for, and
+    whether the policy permits it)?
+  \item \textbf{Authorization enforcement:} does the model reach the correct
+    authorization decision, or does it apply faulty reasoning that leads to
+    a wrong conclusion?
+  \item \textbf{Multi-turn consistency:} does the model maintain the authorization
+    state across turns, or does an earlier context manipulation erode it?
+\end{enumerate}
+
+The benchmark data maps to these layers cleanly.
+GPT-5.2 on \texttt{tool\_gated}: policy awareness is present (the instruction is in
+the system prompt) but the model fails at layer~2~--- it calls the tool without
+applying any authorization reasoning, the same behavior as when the instruction is absent.
+This is a tool-pathway-specific layer-2 failure, not a general instruction-following failure
+(GPT-5.2 correctly refuses 73\% of enterprise social-engineering attacks in direct
+conversational contexts).
+Gemini 2.5 Pro on \texttt{tool\_gated}: passes layer~2 sometimes (20\% policy compliance)
+but delegates layer~3 to the \texttt{enforce\_acl} backend rather than performing it
+at the model layer~--- a layer-3 deferral, not a layer-2 failure.
+Opus 4.7 and DeepSeek on \texttt{tool\_gated}: reach layer~3 but fail the authorization
+judgment on cases with compelling attacker framing (coverage claims, audit authority):
+a layer-3 failure where the reasoning is present but the conclusion is wrong.
+The \texttt{chained} tier exposes layer-4 failures across all models: even when
+single-turn authorization reasoning is sound, multi-turn context manipulation
+(commitment traps, pre-supplied agreement turns) erodes the authorization boundary
+across turns.
+
+\paragraph{The hard result is the layer-3 failure rate.}
+The with-instruction pass rates of 52\%, 50\%, 20\%, and 0\% are not instruction-following
+statistics.
+They are authorization reasoning accuracy statistics: given policy awareness (instruction
+present), how often does the model reach the correct authorization conclusion?
+Roughly half the time, for the best-performing models~--- and never, for GPT-5.2.
+That is the contribution this benchmark measures.
+
 \subsection{Simulated tools as a methodological strength}
 
 All evaluations use mock tools rather than live backends.
