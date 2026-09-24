@@ -5,7 +5,8 @@
 3,600-case privacy benchmark across 6 domains × 8 attack families × 3 difficulty levels.
 v0.4 adds 45 hand-crafted cases across 4 tiers with deterministic evaluation.
 
-→ **[One-page summary (PDF)](paper/summary.pdf)**
+→ **[One-page summary (PDF)](paper/summary.pdf)**  
+→ [Paper: "Silent Judge..." (v0.3 – v0.4)](paper/main.pdf)
 
 ---
 
@@ -103,8 +104,7 @@ v0.5 introduces a principled four-tier attack taxonomy and expands the case set 
 
 5. **Chained attacks are GPT-5.2's weakness.** 13 of its 25 failures are in the chained tier. Context manipulation and social engineering over multiple turns is its primary vulnerability.
 
-→ [Full v0.5 report](v0.5/results/plab_v05_report.html)  
-→ [Paper: "Silent Judge: Weak LLMs as Evaluators Inflate Privacy Failure Rates by 3.5×"](paper/main.pdf)
+→ [Full v0.5 report](v0.5/results/plab_v05_report.html)
 
 ---
 
