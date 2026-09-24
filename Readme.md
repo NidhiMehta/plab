@@ -1,7 +1,7 @@
 # PLAB — Privacy attack LLM Benchmark
 
 *Silent Judge: Weak LLMs as Evaluators Inflate Privacy Failure Rates by 3.5× in PLAB*  
-*The Instruction Is the Defense: Authorization Boundaries in Agentic LLM Deployments*
+*The Instruction Is the Defense: Authorization Failures in Agentic LLM Deployments*
 
 3,600-case privacy benchmark across 6 domains × 8 attack families × 3 difficulty levels.
 v0.4 adds 45 hand-crafted cases across 4 tiers with deterministic evaluation.
