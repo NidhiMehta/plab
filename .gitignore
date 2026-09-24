@@ -1,6 +1,15 @@
 # Secrets
 .env
 
+# LaTeX build artifacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/missfont.log
+
 # arXiv package (has author name — keep separate from anon ICLR submission)
 arxiv_submission/
 arxiv_submission.tar.gz
@@ -67,6 +76,11 @@ v0.5/results/tune_attacks.log
 # v0.5 schema intermediates
 v0.5/schema/case.v0.5.cases.tuned.jsonl
 v0.5/schema/tune_audit.jsonl
+
+# v0.6 pilot / interim runs (not canonical)
+v0.6/results/v0.6_pilot_gemini.jsonl
+v0.6/results/v0.6_pilot_deepseek.jsonl
+v0.6/schema/case.v0.6.pilot.jsonl
 
 # Old paper draft
 paper/summary_old.pdf

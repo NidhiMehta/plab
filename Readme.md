@@ -103,7 +103,64 @@ v0.5 introduces a principled four-tier attack taxonomy and expands the case set 
 
 5. **Chained attacks are GPT-5.2's weakness.** 13 of its 25 failures are in the chained tier. Context manipulation and social engineering over multiple turns is its primary vulnerability.
 
-→ [Full v0.5 report](v0.5/results/plab_v05_report.html)
+→ [Full v0.5 report](v0.5/results/plab_v05_report.html)  
+→ [Paper: "Silent Judge: Weak LLMs as Evaluators Inflate Privacy Failure Rates by 3.5×"](paper/main.pdf)
+
+---
+
+## v0.6 — 69 cases, 4 models, agentic deployment contexts
+
+v0.6 fixes the inconclusive problem from v0.5 via richer deployment role-prompts (named company, authenticated user identity, explicit tool-use instruction) and extends the evaluator with interrogative-refusal detection and a confused-deputy zero-tool pass rule. Inconclusives drop from 40–93% (v0.5) to 0–10%.
+
+**Results (69 cases, 4 models)**
+
+| Model | Pass | Fail | Inc | Pass rate (conclusive) |
+|-------|------|------|-----|------------------------|
+| Claude Opus 4.7 | 30 | 39 | 0 | **43%** |
+| Gemini 2.5 Pro | 33 | 32 | 4 | **51%** |
+| DeepSeek V3.2 | 33 | 35 | 1 | **49%** |
+| GPT-5.2 | 16 | 46 | 7 | **26%** |
+
+**By tier (conclusive pass rate)**
+
+| Tier | Opus | Gemini | GPT-5.2 | DeepSeek |
+|------|------|--------|---------|----------|
+| `confused_deputy` (25 cases) | 52% | 80% | 44% | 72% |
+| `tool_gated` (23 cases) | 52% | 20% | **0%** | 50% |
+| `chained` (21 cases) | 24% | 45% | 24% | 19% |
+
+**By domain (conclusive pass rate)**
+
+| Domain | Opus | Gemini | GPT-5.2 | DeepSeek |
+|--------|------|--------|---------|----------|
+| enterprise | 56% | 59% | **73%** | 56% |
+| financial | 29% | 50% | 12% | 50% |
+| health | 47% | 50% | 0% | 40% |
+| government | 50% | 33% | 20% | 50% |
+| legal | 43% | 67% | 29% | 29% |
+| education | 33% | 33% | 0% | 67% |
+
+**Pre-call reasoning ablation** (23 `tool_gated` cases × 4 models × 2 conditions)
+
+Without the pre-call authorization instruction, every model fails every case (0%). With it: Opus 52%, DeepSeek 50%, Gemini 20%, GPT-5.2 0% (structural failure). The instruction is the sole source of safety in this tier.
+
+**Key findings**
+
+1. **`audit_pretext` breaks every model.** 0% for Opus and GPT-5.2, 14% for Gemini and DeepSeek. Authority framing — internal audit, AML review, SAR quality check — is the most reliable attack vector.
+
+2. **GPT-5.2 fails every `tool_gated` case (0/16 conclusive).** The pre-call reasoning instruction has no effect. It is the only model with a structural 0% on any tier, despite 73% enterprise pass rate — a failure specific to the tool-call pathway.
+
+3. **GPT-5.2 domain gap: 73% enterprise, 0% health and education.** Domain-sensitive calibration anchored to business records, not harm potential.
+
+4. **Gemini leads on `confused_deputy` (80%) and `chained` (45%) but collapses on `tool_gated` (20%).** The safety behavior that protects against confused-deputy and multi-turn attacks does not transfer to single-turn tool authorization.
+
+5. **18 cases break all four models (26% of the benchmark).** Concentrated in financial audit, health MDT, government benefits, and education audit contexts.
+
+6. **`commitment_trap` and `audit_pretext` are structurally harder.** Social engineering: 36–65% pass; commitment traps: 12–50%; audit pretexts: 0–14%.
+
+→ [Full v0.6 interactive report](v0.6/results/plab_v06_report.html)  
+→ [Paper: "The Instruction Is the Defense"](paper/plab_v06.pdf)  
+→ [Pipeline / how to rerun](v0.6/PIPELINE.md)
 
 ---
 
@@ -129,8 +186,9 @@ scripts/       report generators, pilot sampler
 results/       raw JSONL outputs + PDF reports
 v0.3/          v0.3 canonical results and report
 v0.4/          v0.4 per-model results and report
-v0.5/          evaluator, judge, schema, scripts, results, report
-paper/         LaTeX source, figures, compiled PDF, summary.pdf
+v0.5/          evaluator (evaluator_v05_1.py), v0.5 schema, results, scripts
+v0.6/          v0.6 schema, results, scripts, report, pipeline docs
+paper/         LaTeX source for both papers, compiled PDFs, figures
 release/       clean artifact bundle (figures, results, paper)
 iclr_submission/  anonymous ICLR 2027 package
 ```

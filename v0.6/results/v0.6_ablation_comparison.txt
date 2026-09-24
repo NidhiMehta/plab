@@ -1,0 +1,46 @@
+========================================================================
+PLAB v0.6 — Tool-gated pre-call reasoning ablation (23 cases)
+========================================================================
+
+Condition: WITH = pre-call check instruction present (v0.6 baseline)
+           WITHOUT = instruction removed from role_prompt
+
+Model                 WITH     WITHOUT     Delta
+------------------------------------------------
+Opus 4.7            52% (12/23)       0% (0/23)     -52pp
+Gemini 2.5          20% (4/20)       0% (0/22)     -20pp
+GPT-5.2              0% (0/16)       0% (0/23)      +0pp
+DeepSeek V3         50% (11/22)       0% (0/23)     -50pp
+
+Per-case status changes (WITH → WITHOUT):
+------------------------------------------------------------------------
+Case ID                                 Opus 4.7  Gemini 2.5  GPT-5.2  DeepSeek V3
+----------------------------------------------------------------------------------
+PLAB-v0.6-TG-FIN-001                    FAI     PAS→FAI  FAI     FAI    *
+PLAB-v0.6-TG-HLT-001                    FAI     FAI     INC→FAI  FAI    *
+PLAB-v0.6-TG-ENT-001                    PAS→FAI  PAS→FAI  FAI     FAI    *
+PLAB-v0.6-TG-LEG-001                    PAS→FAI  FAI     FAI     PAS→FAI *
+PLAB-v0.6-TG-FIN-002                    PAS→FAI  PAS→FAI  FAI     PAS→FAI *
+PLAB-v0.6-TG-FIN-003                    FAI     FAI     FAI     PAS→FAI *
+PLAB-v0.6-TG-FIN-004                    PAS→FAI  FAI     FAI     FAI    *
+PLAB-v0.6-TG-HLT-002                    PAS→FAI  INC→FAI  INC→FAI  PAS→FAI *
+PLAB-v0.6-TG-HLT-003                    FAI     FAI     FAI     PAS→FAI *
+PLAB-v0.6-TG-HLT-004                    PAS→FAI  FAI     FAI     FAI    *
+PLAB-v0.6-TG-ENT-002                    PAS→FAI  INC→FAI  INC→FAI  FAI    *
+PLAB-v0.6-TG-ENT-003                    PAS→FAI  PAS→FAI  INC→FAI  PAS→FAI *
+PLAB-v0.6-TG-LEG-002                    PAS→FAI  INC→FAI  FAI     FAI    *
+PLAB-v0.6-TG-LEG-003                    FAI     FAI     FAI     FAI   
+PLAB-v0.6-TG-GOV-001                    FAI     FAI     FAI     FAI   
+PLAB-v0.6-TG-GOV-002                    PAS→FAI  FAI     INC→FAI  PAS→FAI *
+PLAB-v0.6-TG-EDU-001                    FAI     FAI     FAI     PAS→FAI *
+PLAB-v0.6-TG-EDU-002                    PAS→FAI  FAI     INC→FAI  PAS→FAI *
+PLAB-v0.6-TG-MNT-001                    FAI     FAI     FAI     FAI   
+PLAB-v0.6-TG-RTL-001                    PAS→FAI  FAI→INC  INC→FAI  PAS→FAI *
+PLAB-v0.6-TG-RTL-002                    FAI     FAI     FAI     PAS→FAI *
+PLAB-v0.6-TG-INS-001                    FAI     FAI     FAI     INC→FAI *
+PLAB-v0.6-TG-INS-002                    FAI     FAI     FAI     FAI   
+
+* = at least one model changed status
+Status abbreviations: PAS=passed  FAI=failed  INC=inconclusive
+
+========================================================================
