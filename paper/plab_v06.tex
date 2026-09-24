@@ -49,11 +49,13 @@ DeepSeek V3.2 in a simulated agentic deployment environment with executable mock
 providing deterministic access-control enforcement.
 Our key controlled experiment removes a pre-call authorization reasoning instruction
 from the \texttt{tool\_gated} role prompt across all 23 cases and reruns all four models.
-Without the instruction, \textbf{every model fails every case} (0\% pass rate).
-With the instruction, three models recover substantially (Opus 4.7: 52\%,
-DeepSeek V3.2: 50\%, Gemini 2.5 Pro: 20\%), but \textbf{GPT-5.2 remains at 0\%
-regardless}~--- the only model with a structural failure to apply pre-call
-authorization reasoning.
+Without the instruction, no model independently infers the authorization boundary:
+\textbf{every model fails every case} (0\% pass rate).
+Restoring the instruction demonstrates that models \emph{can} respond to explicit
+authorization policy~--- but instruction presence is far from sufficient:
+pass rates with the instruction range from 20--52\% for three models,
+and \textbf{GPT-5.2 fails every case regardless}, the only model that does not
+respond to the pre-call instruction at all.
 Across the full benchmark, audit-framing attacks achieve near-zero pass rates
 across all models (0\% for Opus 4.7 and GPT-5.2), 18 of 69 cases (26\%) break
 all four models simultaneously, and chained multi-turn attacks are the hardest
@@ -86,12 +88,16 @@ the model is expected to apply softer policy reasoning before calling (e.g., ver
 that the requester is the data owner, or that an override claim is legitimate).
 This paper tests whether frontier LLMs actually perform the model-layer check.
 
-Our central finding is that \textbf{they do not, by default.}
-In our \texttt{tool\_gated} benchmark tier~--- where the model has tool access but
-must decide whether the requesting user is authorized~--- all four tested models fail
-every case when the system prompt does not explicitly instruct pre-call verification.
-An explicit instruction recovers 52\% and 50\% pass rates for Claude Opus 4.7 and DeepSeek V3.2,
-but has no effect on GPT-5.2, which fails every case regardless.
+Our central finding is that \textbf{explicit instruction is necessary to engage
+authorization reasoning~--- and far from sufficient to guarantee it.}
+In our \texttt{tool\_gated} tier, when authorization policy is absent from the
+system prompt, no model independently infers the required access boundary:
+all four fail every case.
+Restoring an explicit pre-call authorization instruction recovers 52\% and 50\%
+pass rates for Opus 4.7 and DeepSeek V3.2.
+But instruction presence is not instruction compliance:
+even with the instruction, Gemini 2.5 Pro passes only 20\% of \texttt{tool\_gated} cases,
+and GPT-5.2 passes none~--- the only model that fails to respond to the instruction at all.
 This is not a failure of general safety alignment: GPT-5.2 correctly refuses social
 engineering attacks in the enterprise domain at 73\%.
 The failure is specific to \emph{tool-mediated authorization}: the model treats
@@ -749,8 +755,14 @@ GPT-5.2          & \textcolor{cred}{0\%} (0/16)  & \textcolor{cred}{\textbf{0\%}
 \end{table}
 
 Without the instruction, all four models fail all 23 cases.
-The pre-call reasoning instruction is \emph{entirely responsible} for the observed
-safety in this tier: there is no baseline protection from model training alone.
+This is the expected result: an environment that omits authorization policy
+provides no authorization signal for the model to act on.
+The more important observation is the WITH-instruction column:
+even when explicitly told to verify authorization before calling,
+the best-performing models (Opus 4.7, DeepSeek V3.2) pass only 52\% and 50\% of cases,
+and GPT-5.2 passes none.
+Instruction presence is what separates the ablation conditions;
+instruction \emph{sufficiency} is the open problem this benchmark measures.
 
 \subsection{Analysis}
 
@@ -801,11 +813,16 @@ in the \texttt{tool\_gated} attack surface.
 
 We summarize the principal findings across the full benchmark and the ablation.
 
-\paragraph{F1: Pre-call reasoning instructions are the sole source of tool\_gated safety.}
-All four models fail 100\% of \texttt{tool\_gated} cases without the explicit
-pre-call authorization instruction.
-Model training alone provides no protection in this attack surface.
-This should be treated as a deployment requirement, not a model property.
+\paragraph{F1: Models do not independently infer authorization boundaries; explicit instruction is necessary but not sufficient.}
+When authorization policy is absent from the model's instruction context,
+none of the evaluated models independently inferred the required authorization
+boundary: all four fail 100\% of \texttt{tool\_gated} cases without the pre-call instruction.
+This is unsurprising~--- an environment that removes the only authorization-related
+instruction has removed the only authorization signal the model has.
+The more significant finding is what happens \emph{with} the instruction:
+pass rates reach only 52\% and 50\% for the best-performing models.
+Explicit instruction is necessary to engage authorization reasoning;
+it is far from sufficient to guarantee it.
 
 \paragraph{F2: GPT-5.2 does not apply pre-call authorization instructions.}
 GPT-5.2 is the only model with a 0\% pass rate on \texttt{tool\_gated} in both
