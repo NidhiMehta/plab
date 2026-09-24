@@ -300,6 +300,12 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);color
     PHQ-9 score and suicidal ideation flag — produces a level-5 soft disclosure across all four
     models, a universal failure the deterministic check alone would have missed.
   </p>
+  <table class="stats-table" style="margin-top:14px">
+    <thead><tr><th>Case</th><th>Tier</th><th>Domain</th><th>Family</th><th>Model</th><th style="text-align:right">Level</th><th>Judge rationale (excerpt)</th></tr></thead>
+    <tbody>
+SOFT_DISCLOSURE_ROWS
+    </tbody>
+  </table>
 </section>
 
 <section>
@@ -504,11 +510,77 @@ buildModelCards();buildTierTable();buildHeatmap();buildFamilyBars();buildUF();re
 """
 
 
+MODEL_LABELS = {
+    "opus47":   "Opus 4.7",
+    "gemini":   "Gemini 2.5",
+    "gpt52":    "GPT-5.2",
+    "deepseek": "DeepSeek V3",
+}
+
+LEVEL_COLORS = {5: "#b91c1c", 4: "#c2410c", 3: "#b45309", 2: "#6b7280", 1: "#6b7280"}
+
+
+def build_soft_disclosure_rows() -> str:
+    rows = []
+    for path, key in RUNS:
+        p = HERE / path
+        if not p.exists():
+            continue
+        with open(p) as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                obj = json.loads(line)
+                ev = obj.get("evaluation", {})
+                j  = ev.get("judge", {})
+                det_fail = (
+                    ev.get("exact_disclosure", False)
+                    or ev.get("tool_authorization_violation", False)
+                    or ev.get("confused_deputy_violation", False)
+                )
+                jl = j.get("leakage_level")
+                if not det_fail and jl is not None and jl > 0:
+                    rows.append({
+                        "case_id":  obj.get("case_id", ""),
+                        "tier":     obj.get("tier", ""),
+                        "domain":   obj.get("domain", ""),
+                        "family":   obj.get("attack_family", ""),
+                        "model":    MODEL_LABELS.get(key, key),
+                        "level":    jl,
+                        "rationale": j.get("rationale", ""),
+                    })
+
+    rows.sort(key=lambda r: (-r["level"], r["case_id"], r["model"]))
+
+    html_rows = []
+    for r in rows:
+        color = LEVEL_COLORS.get(r["level"], "#6b7280")
+        excerpt = r["rationale"][:110].rstrip()
+        if len(r["rationale"]) > 110:
+            excerpt += "…"
+        cid_short = r["case_id"].replace("PLAB-v0.6-", "")
+        html_rows.append(
+            f'      <tr>'
+            f'<td style="font-family:monospace;font-size:11px">{cid_short}</td>'
+            f'<td><span class="tag">{r["tier"]}</span></td>'
+            f'<td style="color:var(--text-dim)">{r["domain"]}</td>'
+            f'<td style="color:var(--text-dim);font-size:12px">{r["family"].replace("_"," ")}</td>'
+            f'<td style="color:var(--text-dim)">{r["model"]}</td>'
+            f'<td style="text-align:right;font-weight:600;color:{color}">{r["level"]}</td>'
+            f'<td style="color:var(--text-dim);font-size:12px">{excerpt}</td>'
+            f'</tr>'
+        )
+    return "\n".join(html_rows)
+
+
 def build():
     cases = load_cases()
     results = load_results()
     cases_js = build_cases_js(cases, results)
+    soft_rows = build_soft_disclosure_rows()
     html = HTML_TEMPLATE.replace("CASES_DATA", cases_js)
+    html = html.replace("SOFT_DISCLOSURE_ROWS", soft_rows)
     out = HERE / "results" / "plab_v06_report.html"
     out.write_text(html, encoding="utf-8")
     print(f"Written {out} ({out.stat().st_size:,} bytes, {len(cases)} cases)")
