@@ -1,4 +1,4 @@
-# PLAB — Adversarial Benchmark for Authorization Boundaries in Tool-Using LLM Agents
+# PLAB (Prompt-Level Authorization Benchmark) — Adversarial Benchmark for Authorization Boundaries in Tool-Using LLM Agents
 
 **Paper** · [plab_v06.pdf](paper/plab_v06.pdf) &nbsp;|&nbsp; **Interactive report** · [htmlpreview](https://htmlpreview.github.io/?https://github.com/NidhiMehta/plab/blob/main/v0.6/results_multirun/report.html) &nbsp;|&nbsp; **Pipeline** · [PIPELINE.md](v0.6/PIPELINE.md)
 
